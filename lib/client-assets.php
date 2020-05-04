@@ -674,13 +674,8 @@ add_filter( 'block_editor_settings', 'gutenberg_extend_settings_custom_line_heig
  *
  * @return array Filtered editor settings.
  */
-function gutenberg_extend_settings_block_patterns( $settings ) {
-	$block_patterns                          = [
-		gutenberg_load_block_pattern( 'teams' ),
-		gutenberg_load_block_pattern( 'testimonial' ),
-		gutenberg_load_block_pattern( 'pricing-table01' ),
-	];
-	$settings['__experimentalBlockPatterns'] = $block_patterns;
+function gutenberg_extend_settings_custom_units( $settings ) {
+	$settings['__experimentalDisableCustomUnits'] = get_theme_support( 'experimental-custom-units' );
 	return $settings;
 }
 add_filter( 'block_editor_settings', 'gutenberg_extend_settings_custom_units' );
@@ -696,4 +691,5 @@ if ( class_exists( 'WP_Patterns_Registry' ) && ! WP_Patterns_Registry::get_insta
 	register_pattern( 'core/hero-two-columns', gutenberg_load_block_pattern( 'hero-two-columns' ) );
 	register_pattern( 'core/numbered-features', gutenberg_load_block_pattern( 'numbered-features' ) );
 	register_pattern( 'core/its-time', gutenberg_load_block_pattern( 'its-time' ) );
+	register_pattern( 'core/its-time', gutenberg_load_block_pattern( 'pricing-table' ) );
 }
