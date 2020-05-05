@@ -261,8 +261,9 @@ jobs:
       install:
         - npm ci
       before_script:
-        - emulator -avd Pixel_28 -no-audio -verbose -no-snapshot -no-window -selinux permissive -qemu -m 2048 &
-        - android-wait-for-emulator
+        - $ANDROID_HOME/emulator/emulator -avd Pixel_28 -no-audio -verbose -no-snapshot -no-window -selinux permissive -qemu -m 2048 &
+        - chmod +x ./android-wait-for-emulator.sh
+        - ./android-wait-for-emulator.sh
         - adb shell input keyevent 82 &
       script:
         - npm run native test:e2e:android:local
