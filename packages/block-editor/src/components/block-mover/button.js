@@ -12,7 +12,7 @@ import { Button } from '@wordpress/components';
 import { useInstanceId } from '@wordpress/compose';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { forwardRef } from '@wordpress/element';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -36,17 +36,17 @@ const getArrowIcon = ( direction, orientation, isRTL ) => {
 	return null;
 };
 
-const getMovementDirection = ( direction, orientation, isRTL ) => {
-	if ( direction === 'up' ) {
+const getMovementDirectionLabel = ( moveDirection, orientation, isRTL ) => {
+	if ( moveDirection === 'up' ) {
 		if ( orientation === 'horizontal' ) {
-			return isRTL ? 'right' : 'left';
+			return isRTL ? __( 'Move right' ) : __( 'Move left' );
 		}
-		return 'up';
-	} else if ( direction === 'down' ) {
+		return __( 'Move up' );
+	} else if ( moveDirection === 'down' ) {
 		if ( orientation === 'horizontal' ) {
-			return isRTL ? 'left' : 'right';
+			return isRTL ? __( 'Move left' ) : __( 'Move right' );
 		}
-		return 'down';
+		return __( 'Move down' );
 	}
 	return null;
 };
@@ -121,7 +121,9 @@ const BlockMoverButton = forwardRef(
 		);
 		const moverFunction =
 			direction === 'up' ? moveBlocksUp : moveBlocksDown;
-		const onClick = partial( moverFunction, clientIds, rootClientId );
+		const onClick = isDisabled
+			? null
+			: partial( moverFunction, clientIds, rootClientId );
 		const descriptionId = `block-editor-block-mover-button__description-${ instanceId }`;
 
 		return (
@@ -133,14 +135,10 @@ const BlockMoverButton = forwardRef(
 						`is-${ direction }-button`
 					) }
 					icon={ getArrowIcon( direction, moverOrientation, isRTL ) }
-					label={ sprintf(
-						// translators: %s: Horizontal direction of block movement ( left, right )
-						__( 'Move %s' ),
-						getMovementDirection(
-							direction,
-							moverOrientation,
-							isRTL
-						)
+					label={ getMovementDirectionLabel(
+						direction,
+						moverOrientation,
+						isRTL
 					) }
 					aria-describedby={ descriptionId }
 					onClick={ onClick }

@@ -16,7 +16,7 @@ import { withSelect } from '@wordpress/data';
  * Internal dependencies
  */
 import BlockDraggable from '../block-draggable';
-import { MoveUpButton, MoveDownButton } from './mover-buttons';
+import { MoveUpButton, MoveDownButton } from './button';
 
 export class BlockMover extends Component {
 	constructor() {
