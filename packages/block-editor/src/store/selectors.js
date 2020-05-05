@@ -152,7 +152,9 @@ export const getBlock = createSelector(
 		return {
 			...block,
 			attributes: getBlockAttributes( state, clientId ),
-			innerBlocks: getBlocks( state, clientId ),
+			innerBlocks: areInnerBlocksControlled( state, clientId )
+				? EMPTY_ARRAY
+				: getBlocks( state, clientId ),
 		};
 	},
 	( state, clientId ) => [
@@ -201,10 +203,11 @@ export const getBlocks = createSelector(
 			getBlock( state, clientId )
 		);
 	},
-	( state ) => [
-		state.blocks.byClientId,
-		state.blocks.order,
-		state.blocks.attributes,
+	( state, rootClientId ) => [
+		...map(
+			state.blocks.order[ rootClientId || '' ],
+			( id ) => state.blocks.cache[ id ]
+		),
 	]
 );
 
